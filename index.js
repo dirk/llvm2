@@ -60,35 +60,12 @@ function constString (str) {
   return Library.LLVMConstString(str, str.length, dontNullTerminate)
 }
 
-function Builder () {
-  this.ptr = Library.LLVMCreateBuilder()
-}
-Builder.prototype.buildGlobalStringPtr = function (str, name) {
-  expect(str).to.be.a('string')
-  expect(name).to.be.a('string')
-  return Library.LLVMBuildGlobalStringPtr(this.ptr, str, name)
-}
-Builder.prototype.buildCall = function (fn, args, name) {
-  expect(fn).to.be.a(Function)
-  expect(args).to.be.an('array')
-  expect(name).to.be.a('string')
-  var argsArray = new ArgRefArray(args.length)
-  for (var i = 0; i < args.length; i++) {
-    var arg = args[i]
-    argsArray[i] = args[i]
-  }
-  return Library.LLVMBuildCall(this.ptr, fn.ptr, argsArray, args.length, name)
-}
-Builder.prototype.buildRetVoid = function () {
-  return Library.LLVMBuildRetVoid(this.ptr)
-}
-Builder.prototype.positionAtEnd = function (block) {
-  return Library.LLVMPositionBuilderAtEnd(this.ptr, block)
-}
+var Builder = require('./lib/builder')
 
 module.exports = {
   Library: Library,
   Module:  Module,
+  Function: Function,
   FunctionPassManager: FunctionPassManager,
   Builder: Builder,
   FunctionType: FunctionType,
