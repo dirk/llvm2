@@ -70,6 +70,7 @@ module.exports = {
   Builder: Builder,
   FunctionType: FunctionType,
   Types: Types,
+  RefTypes: refTypes,
   constString: constString
 }
 
