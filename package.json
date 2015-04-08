@@ -1,7 +1,7 @@
 {
   "name": "llvm2",
   "description": "LLVM bindings for Node.js/io.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "dependencies": {
     "ffi": "~1.3.0",
     "ref": "~1.0.1",
