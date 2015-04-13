@@ -1,5 +1,5 @@
 
-var LLVM    = require('../index'),
+var LLVM    = require('./helper').LLVM,
     Library = LLVM.Library,
     expect  = require('expect.js')
 
