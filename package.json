@@ -11,6 +11,9 @@
   "devDependencies": {
     "mocha": "~2.2.4"
   },
+  "scripts": {
+    "test": "node_modules/.bin/mocha test"
+  },
   "main": "index.js",
   "repository": "https://github.com/dirk/llvm2",
   "license": "MIT"
