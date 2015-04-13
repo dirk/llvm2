@@ -1,3 +1,5 @@
+[![Build Status][travis-image]][travis-url]
+
 # llvm2
 
 FFI-based abstraction over the LLVM C API.
@@ -33,4 +35,7 @@ $ mocha test
 ## License
 
 Licensed under the MIT License, see [LICENSE](LICENSE) for details.
+
+[travis-image]: https://img.shields.io/travis/dirk/llvm2/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/dirk/llvm2
 
