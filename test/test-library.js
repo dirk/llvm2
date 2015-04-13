@@ -3,7 +3,7 @@ var LLVM    = require('../index'),
     Library = LLVM.Library,
     expect  = require('expect.js')
 
-describe('Type', function () {
+describe('Int type', function () {
   var addressSpace = 0
 
   var int64Type = null,
@@ -19,6 +19,13 @@ describe('Type', function () {
     expect(str).to.eql('i64')
     str = Library.LLVMPrintTypeToString(int64PtrType)
     expect(str).to.eql('i64*')
+  })
+
+  it('should be created with a size', function () {
+    var intType = Library.LLVMIntType(64)
+    expect(intType).to.be.a(Buffer)
+    var intTypeStr = Library.LLVMPrintTypeToString(intType)
+    expect(intTypeStr).to.eql('i64')
   })
 
   it('should fail to create a pointer without an address space', function () {
