@@ -43,3 +43,24 @@ describe('Context', function () {
   })
 })
 
+describe('Target', function () {
+  it('should get a target triple', function () {
+    var triple = Library.LLVMGetDefaultTargetTriple()
+    expect(triple).to.match(/[a-z0-9_]+-[a-z0-9_]+-[a-z0-9._]+/)
+  })
+})
+
+describe('Module', function () {
+  var module = null
+  it('should create a module', function () {
+    module = Library.LLVMModuleCreateWithName('test')
+    expect(module.isNull()).to.be(false)
+  })
+  it('should print the empty module to a string', function () {
+    var str = Library.LLVMPrintModuleToString(module)
+    expect(str).to.be.a('string')
+    str = str.trim()
+    expect(str).to.eql("; ModuleID = 'test'")
+  })
+})
+
