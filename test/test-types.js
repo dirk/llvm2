@@ -1,4 +1,3 @@
-
 var LLVM    = require('./helper').LLVM,
     Library = LLVM.Library,
     Types   = LLVM.Types,
