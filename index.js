@@ -1,6 +1,5 @@
 var ffi = require('ffi'),
-    ref = require('ref'),
-    expect = require('expect.js')
+    ref = require('ref')
 
 var ptrType   = ref.refType(ref.types.void),
     void_     = ref.types.void
