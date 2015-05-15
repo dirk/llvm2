@@ -43,6 +43,28 @@ describe('Context', function () {
   })
 })
 
+describe('Pass manager', function () {
+  it('should create a pass manager', function () {
+    var pm = Library.LLVMCreatePassManager()
+    expect(pm).to.be.a(Buffer)
+    expect(pm.isNull()).to.be(false)
+  })
+})
+
+describe('Function pass manager', function () {
+  var module = null
+  it('should create a module for the pass manager', function () {
+    module = Library.LLVMModuleCreateWithName('test-pass-manager')
+    expect(module).to.be.a(Buffer)
+    expect(module.isNull()).to.be(false)
+  })
+  it('should create the pass manager for the module', function () {
+    var pm = Library.LLVMCreateFunctionPassManagerForModule(module)
+    expect(pm).to.be.a(Buffer)
+    expect(pm.isNull()).to.be(false)
+  })
+})
+
 describe('Target', function () {
   it('should get a target triple', function () {
     var triple = Library.LLVMGetDefaultTargetTriple()
