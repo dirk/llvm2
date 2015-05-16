@@ -65,10 +65,37 @@ describe('Function pass manager', function () {
   })
 })
 
+function checkPointerBuffer (buffer) {
+  expect(buffer).to.be.a(Buffer)
+  expect(buffer.isNull()).to.be(false)
+}
+
 describe('Target', function () {
+  before(function () {
+    // Have to set up all this target stuff beforehand
+    LLVM.Library.LLVMInitializeX86Target()
+    LLVM.Library.LLVMInitializeX86TargetInfo()
+    LLVM.Library.LLVMInitializeX86TargetMC()
+  })
+
   it('should get a target triple', function () {
     var triple = Library.LLVMGetDefaultTargetTriple()
     expect(triple).to.match(/[a-z0-9_]+-[a-z0-9_]+-[a-z0-9._]+/)
+  })
+  var targetMachine
+  it('should get a target machine', function () {
+    var nativeTargetTriple = LLVM.Library.LLVMGetDefaultTargetTriple()
+    expect(nativeTargetTriple).to.be.a('string')
+
+    var target = LLVM.Library.LLVMGetFirstTarget()
+    checkPointerBuffer(target)
+
+    targetMachine = LLVM.Library.LLVMCreateTargetMachine(target, nativeTargetTriple, '', '', 0, 0, 0)
+    checkPointerBuffer(targetMachine)
+  })
+  it('should get target data of that machine', function () {
+    var targetData = LLVM.Library.LLVMGetTargetMachineData(targetMachine)
+    checkPointerBuffer(targetData)
   })
 })
 
