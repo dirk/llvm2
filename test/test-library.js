@@ -71,13 +71,22 @@ function checkPointerBuffer (buffer) {
 }
 
 describe('Target', function () {
-  before(function () {
-    // Have to set up all this target stuff beforehand
+  var target;
+  it('should initialize a target', function () {
+    target = LLVM.Library.LLVMGetFirstTarget()
+    expect(target).to.be.a(Buffer)
+    expect(target.isNull()).to.be(true)
+
+    // Then initialize the target and re-fetch
     LLVM.Library.LLVMInitializeX86Target()
     LLVM.Library.LLVMInitializeX86TargetInfo()
     LLVM.Library.LLVMInitializeX86TargetMC()
-  })
 
+    target = LLVM.Library.LLVMGetFirstTarget()
+    checkPointerBuffer(target)
+    var hasTargetMachine = LLVM.Library.LLVMTargetHasTargetMachine(target)
+    expect(hasTargetMachine).to.be(true)
+  })
   it('should get a target triple', function () {
     var triple = Library.LLVMGetDefaultTargetTriple()
     expect(triple).to.match(/[a-z0-9_]+-[a-z0-9_]+-[a-z0-9._]+/)
@@ -87,7 +96,7 @@ describe('Target', function () {
     var nativeTargetTriple = LLVM.Library.LLVMGetDefaultTargetTriple()
     expect(nativeTargetTriple).to.be.a('string')
 
-    var target = LLVM.Library.LLVMGetFirstTarget()
+    target = LLVM.Library.LLVMGetFirstTarget()
     checkPointerBuffer(target)
 
     targetMachine = LLVM.Library.LLVMCreateTargetMachine(target, nativeTargetTriple, '', '', 0, 0, 0)
@@ -110,6 +119,46 @@ describe('Module', function () {
     expect(str).to.be.a('string')
     str = str.trim()
     expect(str).to.eql("; ModuleID = 'test'")
+  })
+})
+
+
+describe('Builder', function () {
+  var builder;
+  it('should create an instruction builder', function () {
+    builder = LLVM.Library.LLVMCreateBuilder()
+    checkPointerBuffer(builder)
+  })
+  it('shouldn\'t find an insert block in empty builder', function () {
+    var block = LLVM.Library.LLVMGetInsertBlock(builder)
+    expect(block).to.be.a(Buffer)
+    expect(block.isNull()).to.be(true)
+  })
+  describe('having a function', function () {
+    var fn, fnType, module;
+    before(function () {
+      module = Library.LLVMModuleCreateWithName('test-builder-functions')
+      checkPointerBuffer(module)
+    })
+
+    it('should create a type for the function', function () {
+      var returnType = LLVM.Library.LLVMVoidType(),
+          paramArray = [],
+          paramCount = 0,
+          isVarArg   = false;
+      fnType = LLVM.Library.LLVMFunctionType(returnType, paramArray, paramCount, isVarArg)
+      checkPointerBuffer(fnType)
+    })
+    it('should add the function', function () {
+      fn = LLVM.Library.LLVMAddFunction(module, 'test-function', fnType)
+      checkPointerBuffer(fn)
+    })
+    it('should find an insert block after positioning', function () {
+      Library.LLVMPositionBuilderAtEnd(builder, fn)
+
+      var block = Library.LLVMGetInsertBlock(builder)
+      checkPointerBuffer(block)
+    })
   })
 })
 
