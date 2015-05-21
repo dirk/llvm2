@@ -49,6 +49,11 @@ describe('Pass manager', function () {
     expect(pm).to.be.a(Buffer)
     expect(pm.isNull()).to.be(false)
   })
+
+  it('should have a global pass registry', function () {
+    var reg = Library.LLVMGetGlobalPassRegistry()
+    checkPointerBuffer(reg)
+  })
 })
 
 describe('Function pass manager', function () {
