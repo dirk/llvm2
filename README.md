@@ -20,11 +20,11 @@ $ brew tap homebrew/versions
 ...
 $ brew install llvm36
 ...
-$ brew ls --versions llvm
+$ brew ls --versions llvm36
 llvm 3.6.1
 $ brew link llvm36
 Linking /usr/local/Cellar/llvm36/3.6.1... 78 symlinks created
-$ ln -s /usr/local/lib/llvm-3.6/lib/libLLVM-3.6.dylib /usr/local/lib/libLLVM-3.6.dylib
+$ ln -s /usr/local/opt/llvm36/lib/llvm-3.6/lib/libLLVM-3.6.dylib /usr/local/lib/libLLVM-3.6.dylib
 ```
 
 ## Testing
