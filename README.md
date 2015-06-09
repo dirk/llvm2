@@ -12,15 +12,19 @@ npm install llvm2
 
 #### Mac OS X notes
 
-llvm2 currently requires the Homebrew version of LLVM 3.5 being installed and linked. You will need to use the `--force` option to force Homebrew to link it, since linking this LLVM can interfere with the default system (ie. Apple's) development tools.
+llvm2 uses the 3.6 version of LLVM via the Homebrew/versions tap. This version also doesn't link the dynamic library into the system search path, so you may need to do this manually (see below).
 
 ```sh
-$ brew install llvm
+$ brew tap homebrew/versions
+==> Tapping Homebrew/versions
+...
+$ brew install llvm36
 ...
 $ brew ls --versions llvm
-llvm 3.5.1
-$ brew link -f llvm
-Linking /usr/local/Cellar/llvm/3.5.1... 195 symlinks created
+llvm 3.6.1
+$ brew link llvm36
+Linking /usr/local/Cellar/llvm36/3.6.1... 78 symlinks created
+$ ln -s /usr/local/lib/llvm-3.6/lib/libLLVM-3.6.dylib /usr/local/lib/libLLVM-3.6.dylib
 ```
 
 ## Testing
